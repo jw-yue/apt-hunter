@@ -1,0 +1,2 @@
+# This file is no longer used as we've switched to Node.js
+# See package.json for dependencies instead
