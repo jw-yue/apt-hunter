@@ -6,8 +6,9 @@ export default {
   MAX_PRICE: 3100,
   MIN_FLOOR: 1, // Above first floor
 
-  // Check interval in minutes
-  CHECK_INTERVAL_MINUTES: 60,
+  // Check interval in minutes (for local development)
+  // In Vercel deployment, this runs once daily via cron
+  CHECK_INTERVAL_MINUTES: 1440, // 24 hours = 1440 minutes
 
   // Websites to check
   WEBSITES: [

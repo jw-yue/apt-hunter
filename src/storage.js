@@ -6,11 +6,17 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// File to store known units
+// File to store known units - for local development
 const STORAGE_FILE = path.join(__dirname, "..", "data", "known_units.json");
 
-// Ensure data directory exists
+// In-memory storage for Vercel environment
+let memoryStorage = new Set();
+
+// Ensure data directory exists for local development
 function ensureDataDirectory() {
+  // Skip if running on Vercel
+  if (process.env.VERCEL) return;
+
   const dataDir = path.join(__dirname, "..", "data");
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
@@ -19,13 +25,20 @@ function ensureDataDirectory() {
 
 // Load saved units from storage
 export function loadSavedUnits() {
+  // If we already have in-memory storage (in Vercel), use that
+  if (process.env.VERCEL && memoryStorage.size > 0) {
+    return memoryStorage;
+  }
+
   try {
     ensureDataDirectory();
 
-    if (fs.existsSync(STORAGE_FILE)) {
+    if (!process.env.VERCEL && fs.existsSync(STORAGE_FILE)) {
+      // Local file storage
       const data = fs.readFileSync(STORAGE_FILE, "utf8");
       const knownUnitsArray = JSON.parse(data);
-      return new Set(knownUnitsArray);
+      memoryStorage = new Set(knownUnitsArray);
+      return memoryStorage;
     }
   } catch (error) {
     console.error("Error loading saved units:", error);
@@ -36,6 +49,12 @@ export function loadSavedUnits() {
 
 // Save units to storage
 export function saveUnits(knownUnits) {
+  // Update memory storage
+  memoryStorage = knownUnits;
+
+  // Skip file operations if on Vercel
+  if (process.env.VERCEL) return;
+
   try {
     ensureDataDirectory();
 
