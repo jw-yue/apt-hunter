@@ -1,13 +1,13 @@
 // Local development server
-import express from 'express';
-import { fileURLToPath } from 'url';
-import path from 'path';
-import dotenv from 'dotenv';
+import express from "express";
+import { fileURLToPath } from "url";
+import path from "path";
+import dotenv from "dotenv";
 
 // Import API handlers
-import statusHandler from './api/status.js';
-import testRunHandler from './api/test-run.js';
-import checkApartmentsHandler from './api/check-apartments.js';
+import statusHandler from "./api/status.js";
+import testRunHandler from "./api/test-run.js";
+import checkApartmentsHandler from "./api/check-apartments.js";
 
 // Load environment variables
 dotenv.config();
@@ -20,24 +20,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Mock API endpoints
-app.get('/api/status', (req, res) => {
+app.get("/api/status", (req, res) => {
   statusHandler(req, res);
 });
 
-app.get('/api/test-run', (req, res) => {
+app.get("/api/test-run", (req, res) => {
   testRunHandler(req, res);
 });
 
-app.get('/api/check-apartments', (req, res) => {
+app.get("/api/check-apartments", (req, res) => {
   checkApartmentsHandler(req, res);
 });
 
 // Default route for root path
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // Start the server

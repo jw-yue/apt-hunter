@@ -92,60 +92,64 @@
       async function fetchStatus() {
         try {
           console.log("Fetching status from API...");
-          const response = await fetch('/api/status');
-          
+          const response = await fetch("/api/status");
+
           if (response.ok) {
             const data = await response.json();
             console.log("Status data:", data);
-            
+
             // Update last check time
             const lastCheckDate = new Date(data.lastCheck).toLocaleString();
             document.getElementById("last-check").textContent = lastCheckDate;
-            
+
             // Add system status if it exists
             if (data.environment) {
               // Create or update the system status box
               let statusDiv = document.getElementById("system-status");
               if (!statusDiv) {
-                statusDiv = document.createElement('div');
+                statusDiv = document.createElement("div");
                 statusDiv.id = "system-status";
-                statusDiv.className = 'status';
-                document.querySelector('.container').appendChild(statusDiv);
+                statusDiv.className = "status";
+                document.querySelector(".container").appendChild(statusDiv);
               }
-              
+
               // Show environment info
-              const vercelBadge = data.runtime?.vercel 
+              const vercelBadge = data.runtime?.vercel
                 ? '<span style="background:#000;color:#fff;padding:2px 6px;border-radius:4px;font-size:12px;">▲ Vercel</span>'
-                : '';
-                
+                : "";
+
               statusDiv.innerHTML = `
                 <h3>System Status: ${vercelBadge}</h3>
                 <p>Environment: ${data.environment}</p>
-                <p>Node.js: ${data.runtime?.node || 'Unknown'}</p>
-                <p>Platform: ${data.runtime?.platform || 'Unknown'}</p>
-                <p>API Status: <span style="color:green">✓ ${data.status}</span></p>
-                <p>Available APIs: ${Object.keys(data.apis || {}).join(', ')}</p>
+                <p>Node.js: ${data.runtime?.node || "Unknown"}</p>
+                <p>Platform: ${data.runtime?.platform || "Unknown"}</p>
+                <p>API Status: <span style="color:green">✓ ${
+                  data.status
+                }</span></p>
+                <p>Available APIs: ${Object.keys(data.apis || {}).join(
+                  ", "
+                )}</p>
               `;
             }
           } else {
             console.error("API error:", response.status, response.statusText);
-            document.getElementById("last-check").textContent = 
+            document.getElementById("last-check").textContent =
               "Could not connect to status API: " + response.status;
           }
         } catch (error) {
           console.error("Error fetching status:", error);
-          document.getElementById("last-check").textContent = 
+          document.getElementById("last-check").textContent =
             "Error connecting to API: " + error.message;
         }
       }
-      
+
       // Display current time as fallback if API call fails
       document.getElementById("last-check").textContent =
         new Date().toLocaleString();
-      
+
       // Try to fetch the actual status
       fetchStatus();
-      
+
       // Refresh status every minute
       setInterval(fetchStatus, 60000);
     </script>
