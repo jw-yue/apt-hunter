@@ -5,7 +5,7 @@
 Make sure to configure the following environment variables in your Vercel project settings:
 
 - `TWILIO_ACCOUNT_SID`: Your Twilio account SID
-- `TWILIO_AUTH_TOKEN`: Your Twilio auth token  
+- `TWILIO_AUTH_TOKEN`: Your Twilio auth token
 - `TWILIO_PHONE_NUMBER`: Your Twilio phone number (with country code)
 - `TARGET_PHONE_NUMBER`: The phone number to receive SMS notifications (5124121653)
 
@@ -23,6 +23,7 @@ If you're seeing 500 errors when accessing the web interface:
 ### Build Settings
 
 If you see warnings about builds in your project settings:
+
 - This is normal because we're defining our own build configuration in `vercel.json`
 - The warning can be ignored as long as the deployment is working
 

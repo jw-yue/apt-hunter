@@ -2,44 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta       // Fetch the latest status from the API
-      async function fetchStatus() {
-        try {
-          const response = await fetch('/api/status');
-          if (response.ok) {
-            const data = await response.json();
-            const lastCheckDate = new Date(data.lastCheck).toLocaleString();
-            document.getElementById("last-check").textContent = lastCheckDate;
-            
-            // Add system status if it exists
-            if (data.environment) {
-              const statusDiv = document.createElement('div');
-              statusDiv.className = 'status';
-              statusDiv.innerHTML = `
-                <h3>System Status:</h3>
-                <p>Environment: ${data.environment}</p>
-                <p>Node.js: ${data.runtime?.node || 'Unknown'}</p>
-                <p>API Status: ${data.status}</p>
-              `;
-              document.querySelector('.container').appendChild(statusDiv);
-            }
-          } else {
-            document.getElementById("last-check").textContent = 
-              "Could not connect to status API";
-          }
-        } catch (error) {
-          console.error("Error fetching status:", error);
-          document.getElementById("last-check").textContent = 
-            "Error connecting to API";
-        }
-      }
-      
-      // Display current time as fallback if API call fails
-      document.getElementById("last-check").textContent =
-        new Date().toLocaleString();
-      
-      // Try to fetch the actual status
-      fetchStatus();e="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Apartment Hunter</title>
     <style>
       body {
@@ -67,6 +30,17 @@
         background-color: #e8f5e9;
         border-left: 4px solid #4caf50;
       }
+      .nav {
+        margin-bottom: 20px;
+      }
+      .nav-link {
+        color: #2c3e50;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+      .nav-link:hover {
+        text-decoration: underline;
+      }
       footer {
         margin-top: 30px;
         text-align: center;
@@ -77,15 +51,9 @@
   </head>
   <body>
     <div class="container">
-      <div class="nav" style="margin-bottom: 20px">
-        <a
-          href="/"
-          style="color: #2c3e50; text-decoration: none; margin-right: 15px"
-          >Home</a
-        >
-        <a href="/test.html" style="color: #2c3e50; text-decoration: none"
-          >Test Runner</a
-        >
+      <div class="nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/test.html" class="nav-link">Test Runner</a>
       </div>
 
       <h1>Apartment Hunter</h1>
@@ -120,9 +88,66 @@
     </footer>
 
     <script>
-      // Display current time as the last check time
+      // Fetch the latest status from the API
+      async function fetchStatus() {
+        try {
+          console.log("Fetching status from API...");
+          const response = await fetch('/api/status');
+          
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Status data:", data);
+            
+            // Update last check time
+            const lastCheckDate = new Date(data.lastCheck).toLocaleString();
+            document.getElementById("last-check").textContent = lastCheckDate;
+            
+            // Add system status if it exists
+            if (data.environment) {
+              // Create or update the system status box
+              let statusDiv = document.getElementById("system-status");
+              if (!statusDiv) {
+                statusDiv = document.createElement('div');
+                statusDiv.id = "system-status";
+                statusDiv.className = 'status';
+                document.querySelector('.container').appendChild(statusDiv);
+              }
+              
+              // Show environment info
+              const vercelBadge = data.runtime?.vercel 
+                ? '<span style="background:#000;color:#fff;padding:2px 6px;border-radius:4px;font-size:12px;">▲ Vercel</span>'
+                : '';
+                
+              statusDiv.innerHTML = `
+                <h3>System Status: ${vercelBadge}</h3>
+                <p>Environment: ${data.environment}</p>
+                <p>Node.js: ${data.runtime?.node || 'Unknown'}</p>
+                <p>Platform: ${data.runtime?.platform || 'Unknown'}</p>
+                <p>API Status: <span style="color:green">✓ ${data.status}</span></p>
+                <p>Available APIs: ${Object.keys(data.apis || {}).join(', ')}</p>
+              `;
+            }
+          } else {
+            console.error("API error:", response.status, response.statusText);
+            document.getElementById("last-check").textContent = 
+              "Could not connect to status API: " + response.status;
+          }
+        } catch (error) {
+          console.error("Error fetching status:", error);
+          document.getElementById("last-check").textContent = 
+            "Error connecting to API: " + error.message;
+        }
+      }
+      
+      // Display current time as fallback if API call fails
       document.getElementById("last-check").textContent =
         new Date().toLocaleString();
+      
+      // Try to fetch the actual status
+      fetchStatus();
+      
+      // Refresh status every minute
+      setInterval(fetchStatus, 60000);
     </script>
   </body>
 </html>

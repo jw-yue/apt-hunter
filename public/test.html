@@ -133,7 +133,7 @@
           return false;
         }
       }
-      
+
       // Check API status when page loads
       window.addEventListener("load", () => {
         checkApiStatus();
@@ -154,16 +154,16 @@
           if (!isApiWorking) {
             throw new Error("API is not responding. Please try again later.");
           }
-          
+
           // Call the test API endpoint
           console.log("Sending request to /api/test-run");
           const response = await fetch("/api/test-run");
-          
+
           if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Server error ${response.status}: ${errorText}`);
           }
-          
+
           const data = await response.json();
 
           // Format and display results
@@ -193,23 +193,25 @@
           resultsEl.style.display = "block";
         } catch (error) {
           console.error("Error running test:", error);
-          
+
           // Enhanced error display
           let errorMessage = `❌ Error: ${error.message}\n\n`;
           errorMessage += "Troubleshooting steps:\n";
-          errorMessage += "1. Check that your Vercel environment variables are set correctly\n";
+          errorMessage +=
+            "1. Check that your Vercel environment variables are set correctly\n";
           errorMessage += "2. Verify that Twilio credentials are valid\n";
           errorMessage += "3. Try refreshing the page\n\n";
           errorMessage += "Error details: " + error.toString();
-          
+
           resultsContentEl.textContent = errorMessage;
           resultsEl.style.display = "block";
-          
+
           // Try to ping the status endpoint for diagnostics
           fetch("/api/status")
-            .then(resp => resp.json())
-            .catch(err => {
-              resultsContentEl.textContent += "\n\nStatus API check failed: " + err.message;
+            .then((resp) => resp.json())
+            .catch((err) => {
+              resultsContentEl.textContent +=
+                "\n\nStatus API check failed: " + err.message;
             });
         } finally {
           // Hide loading indicator
