@@ -2,7 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta       // Fetch the latest status from the API
+      async function fetchStatus() {
+        try {
+          const response = await fetch('/api/status');
+          if (response.ok) {
+            const data = await response.json();
+            const lastCheckDate = new Date(data.lastCheck).toLocaleString();
+            document.getElementById("last-check").textContent = lastCheckDate;
+            
+            // Add system status if it exists
+            if (data.environment) {
+              const statusDiv = document.createElement('div');
+              statusDiv.className = 'status';
+              statusDiv.innerHTML = `
+                <h3>System Status:</h3>
+                <p>Environment: ${data.environment}</p>
+                <p>Node.js: ${data.runtime?.node || 'Unknown'}</p>
+                <p>API Status: ${data.status}</p>
+              `;
+              document.querySelector('.container').appendChild(statusDiv);
+            }
+          } else {
+            document.getElementById("last-check").textContent = 
+              "Could not connect to status API";
+          }
+        } catch (error) {
+          console.error("Error fetching status:", error);
+          document.getElementById("last-check").textContent = 
+            "Error connecting to API";
+        }
+      }
+      
+      // Display current time as fallback if API call fails
+      document.getElementById("last-check").textContent =
+        new Date().toLocaleString();
+      
+      // Try to fetch the actual status
+      fetchStatus();e="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Apartment Hunter</title>
     <style>
       body {

@@ -10,10 +10,10 @@ export default async function handler(req, res) {
   console.log(
     `[${new Date().toLocaleString()}] Running apartment check via API endpoint...`
   );
-  
+
   // Add debugging info
   console.log(`Node.js version: ${process.version}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`Platform: ${process.platform}`);
 
   try {
@@ -91,20 +91,20 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error("Error checking properties:", error);
-    
+
     // Try to send notification about the error
     try {
       await sendNotification(`⚠️ Apartment Hunter Error: ${error.message}`);
     } catch (notifyError) {
       console.error("Failed to send error notification:", notifyError.message);
     }
-    
+
     // Return error but with more details for debugging
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       error: error.message,
-      stack: process.env.NODE_ENV === 'production' ? null : error.stack,
-      time: new Date().toISOString()
+      stack: process.env.NODE_ENV === "production" ? null : error.stack,
+      time: new Date().toISOString(),
     });
   }
 }
