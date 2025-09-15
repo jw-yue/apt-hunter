@@ -6,7 +6,7 @@ export default function handler(req, res) {
 
   res.status(200).json({
     status: "active",
-    message: "Apartment Hunter is running",
+    message: "Apt Unit Finder is running",
     lastCheck: new Date().toISOString(),
     environment,
     runtime: {

@@ -1,7 +1,7 @@
 {
-  "name": "apt-hunter",
+  "name": "apt-unit-finder",
   "version": "1.0.0",
-  "description": "Apartment hunting notification app",
+  "description": "Apartment unit finder notification app",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "keywords": [
     "apartment",
-    "hunting",
+    "finder",
     "notification"
   ],
   "author": "",

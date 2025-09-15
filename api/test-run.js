@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     }
 
     // Prepare summary message
-    let summary = `📊 Apartment Hunter TEST Run Summary (${new Date().toLocaleString()}):\n\n`;
+    let summary = `📊 Apt Unit Finder TEST Run Summary (${new Date().toLocaleString()}):\n\n`;
 
     if (newUnits.length > 0) {
       summary += `Found ${newUnits.length} matching units that would be new!\n\n`;
@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     // Try to send notification about the error
     try {
       await sendNotification(
-        `⚠️ Apartment Hunter Test Error: ${error.message}`
+        `⚠️ Apt Unit Finder Test Error: ${error.message}`
       );
     } catch (notifyError) {
       console.error("Failed to send error notification:", notifyError.message);

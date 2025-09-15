@@ -1,4 +1,4 @@
-# Apartment Hunter
+# Apt Unit Finder
 
 An automated tool that monitors apartment listings for specific criteria and sends SMS notifications when matching units become available.
 

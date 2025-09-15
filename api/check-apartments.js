@@ -94,7 +94,7 @@ export default async function handler(req, res) {
 
     // Try to send notification about the error
     try {
-      await sendNotification(`⚠️ Apartment Hunter Error: ${error.message}`);
+      await sendNotification(`⚠️ Apt Unit Finder Error: ${error.message}`);
     } catch (notifyError) {
       console.error("Failed to send error notification:", notifyError.message);
     }

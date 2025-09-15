@@ -2,7 +2,7 @@
 export default function handler(req, res) {
   res.status(200).json({
     status: "active",
-    message: "Apartment Hunter API is running",
+    message: "Apt Unit Finder API is running",
     lastCheck: new Date().toISOString(),
   });
 }

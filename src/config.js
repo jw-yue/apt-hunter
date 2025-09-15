@@ -1,4 +1,4 @@
-// Configuration for the apartment hunter application
+// Configuration for the Apt Unit Finder application
 export default {
   // Apartment criteria
   TARGET_BEDROOMS: 2,

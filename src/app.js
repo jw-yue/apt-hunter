@@ -12,7 +12,7 @@ dotenv.config();
 // Global state
 let knownUnits = loadSavedUnits();
 
-console.log("Starting Apartment Hunter application...");
+console.log("Starting Apt Unit Finder application...");
 console.log(
   `Looking for 2bed/2bath units under $${config.MAX_PRICE} above floor ${config.MIN_FLOOR}`
 );
@@ -86,5 +86,5 @@ cron.schedule(`*/${config.CHECK_INTERVAL_MINUTES} * * * *`, () => {
 });
 
 console.log(
-  `Apartment Hunter is running. Will check every ${config.CHECK_INTERVAL_MINUTES} minutes.`
+  `Apt Unit Finder is running. Will check every ${config.CHECK_INTERVAL_MINUTES} minutes.`
 );
