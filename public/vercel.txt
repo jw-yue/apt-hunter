@@ -1,5 +1,0 @@
-This file is created to help debug Vercel deployment issues.
-Deployment timestamp: ${new Date().toISOString()}
-Repository: apt-hunter
-Owner: jw-yue
-Branch: master
