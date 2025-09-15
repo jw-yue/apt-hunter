@@ -12,19 +12,31 @@
   ],
   "routes": [
     {
-      "src": "/",
+      "src": "^/$",
       "dest": "/public/index.html"
     },
     {
-      "src": "/api/(.*)",
+      "src": "^/test.html",
+      "dest": "/public/test.html"
+    },
+    {
+      "src": "^/api/(.*)",
       "dest": "/api/$1"
+    },
+    {
+      "src": "^/check$",
+      "dest": "/api/check-apartments"
     },
     {
       "handle": "filesystem"
     },
     {
-      "src": "/(.*)",
+      "src": "^/(.*\\.js|.*\\.css|.*\\.html|.*\\.png|.*\\.jpg|.*\\.svg|.*\\.ico)$",
       "dest": "/public/$1"
+    },
+    {
+      "src": "^/(.*)",
+      "dest": "/public/index.html"
     }
   ],
   "crons": [
